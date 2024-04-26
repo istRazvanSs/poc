@@ -8,6 +8,7 @@ public class MavenVersionsPluginApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MavenVersionsPluginApplication.class, args);
+		//tst
 	}
 
 }
