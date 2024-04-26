@@ -1,0 +1,42 @@
+name: Maven Versions Plugin Update
+
+on:
+  workflow_dispatch:  # Allows manual trigger from GitHub UI
+  # You can also trigger it on push or pull request
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2
+
+      - name: Update project dependencies to latest versions
+        run: mvn versions:use-latest-versions -DgenerateBackupPoms=false
+
+      - name: Commit and push changes if any
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git commit -am "Update dependencies to latest versions" || echo "No changes to commit"
+          git push origin HEAD:${{ github.ref }}
