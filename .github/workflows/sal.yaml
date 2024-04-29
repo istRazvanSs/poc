@@ -28,8 +28,8 @@ jobs:
           title: '[AUTO] Update Dependencies'
           body: 'Automated changes by GitHub Actions'
           branch: 'update-dependencies-${{ github.run_id }}'
-#          delete-branch: true
+          delete-branch: true
           auto-merge: true
-          merge-merge: squash
+#          merge-merge: squash
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
