@@ -30,6 +30,6 @@ jobs:
           branch: 'update-dependencies-${{ github.run_id }}'
           delete-branch: true
           auto-merge: true
-#          merge-merge: squash
+          merge-method: rebase
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
