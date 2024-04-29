@@ -29,3 +29,5 @@ jobs:
           body: 'Automated changes by GitHub Actions'
           branch: 'update-dependencies-${{ github.run_id }}'
           delete-branch: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
