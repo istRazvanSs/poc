@@ -29,7 +29,13 @@ jobs:
           body: 'Automated changes by GitHub Actions'
           branch: 'update-dependencies-${{ github.run_id }}'
           delete-branch: true
-          auto-merge: true
-          merge-method: rebase
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Auto Merge Pull Request
+        uses: ahmadnassri/action-automerge@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          merge_method: 'merge'
+          commit_message: 'Automate merging of dependency updates'
+        if: github.ref == 'refs/heads/main'
