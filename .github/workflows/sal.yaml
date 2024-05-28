@@ -1,44 +1,44 @@
-name: Update Maven Dependencies
-
-on:
-  schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch: {}
-
-jobs:
-  update-dependencies:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: 17
-          distribution: temurin
-
-      - name: Update project dependencies
-        run: mvn versions:use-latest-versions -DgenerateBackupPoms=false
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          commit-message: Update dependencies
-          title: '[AUTO] Update Dependencies'
-          body: 'Automated changes by GitHub Actions'
-          branch: 'update-dependencies-${{ github.run_id }}'
-          delete-branch: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: Auto-merge
-        uses: pascalgn/automerge-action@v0.14.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          MERGE_LABELS: "automerge,!work in progress"
-          MERGE_METHOD: "merge" 
-          MERGE_COMMIT_MESSAGE: "commit"
-          MERGE_RETRIES: "6"
-          MERGE_RETRY_SLEEP: "10000"
-          UPDATE_LABELS: ""
+#name: Update Maven Dependencies
+#
+#on:
+#  schedule:
+#    - cron: '0 0 * * *'
+#  workflow_dispatch: {}
+#
+#jobs:
+#  update-dependencies:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Check out code
+#        uses: actions/checkout@v2
+#
+#      - name: Set up JDK
+#        uses: actions/setup-java@v2
+#        with:
+#          java-version: 17
+#          distribution: temurin
+#
+#      - name: Update project dependencies
+#        run: mvn versions:use-latest-versions -DgenerateBackupPoms=false
+#
+#      - name: Create Pull Request
+#        uses: peter-evans/create-pull-request@v3
+#        with:
+#          commit-message: Update dependencies
+#          title: '[AUTO] Update Dependencies'
+#          body: 'Automated changes by GitHub Actions'
+#          branch: 'update-dependencies-${{ github.run_id }}'
+#          delete-branch: true
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+#
+#      - name: Auto-merge
+#        uses: pascalgn/automerge-action@v0.14.3
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+#          MERGE_LABELS: "automerge,!work in progress"
+#          MERGE_METHOD: "merge"
+#          MERGE_COMMIT_MESSAGE: "commit"
+#          MERGE_RETRIES: "6"
+#          MERGE_RETRY_SLEEP: "10000"
+#          UPDATE_LABELS: ""
